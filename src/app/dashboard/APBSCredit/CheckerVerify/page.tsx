@@ -15,7 +15,7 @@ interface BatchData {
   responseFileGenerate: number;
 }
 
-const TransactionEnquiry = () => {
+const CheckerVerify = () => {
   const [inwardDate, setInwardDate] = useState('');
   const [batchData, setBatchData] = useState<BatchData[]>([]);
   const [batchIds, setBatchIds] = useState<string[]>([]);
@@ -41,7 +41,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchData = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8081/api/v1/reports/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`http://localhost:8085/api/v1/reports/batchs?inwardDate=${inwardDate}`);
       setBatchData(response.data);
       setShowTable(true);
     } catch (error) {
@@ -51,7 +51,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchIds = async () => {
     try {
-      const response = await axios.get<string[]>('http://localhost:8081/api/v1/reports/batchIds');
+      const response = await axios.get<string[]>('http://localhost:8085/api/v1/reports/batchIds');
       setBatchIds(response.data);
     } catch (error) {
       console.error('Error fetching batch IDs:', error);
@@ -82,9 +82,9 @@ const TransactionEnquiry = () => {
 
   return (
     <div className="container mx-auto p-4 bg-white">
-      <h1 className="text-2xl font-bold">Transaction Enquiry</h1>
+      <h1 className="text-2xl font-bold">Checker Verify</h1>
       <div className="bg-white shadow-md rounded-md p-4">
-        <h2 className="bg-gray-100 text-lg font-semibold">ACH Transaction Enquiry</h2>
+        <h2 className="bg-gray-100 text-lg font-semibold">APBS Checker Verify</h2>
         <div className="flex flex-col items-center space-y-2">
           <div className="grid grid-cols-5 gap-10 my-1">
             <label className="block font-semibold">Inward Date<span className="text-red-500">*</span></label>
@@ -123,11 +123,6 @@ const TransactionEnquiry = () => {
                   </option>
                 ))}
               </select>
-            </div>
-
-            <div className='grid grid-cols-2 gap-5 mt-1'>
-                <label className='block font-semibold'>Exception Reason:</label>
-                <input className='border border-gray-300 rounded-md py-1 px-3 mr-2' type='text'/>
             </div>
           </div>
           <div className="h-1 w-4/5 bg-black"></div>
@@ -175,4 +170,4 @@ const TransactionEnquiry = () => {
   );
 };
 
-export default TransactionEnquiry;
+export default CheckerVerify;

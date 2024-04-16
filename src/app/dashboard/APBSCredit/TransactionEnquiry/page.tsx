@@ -41,7 +41,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchData = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8081/api/v1/reports/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`http://localhost:8085/api/v1/reports/batchs?inwardDate=${inwardDate}`);
       setBatchData(response.data);
       setShowTable(true);
     } catch (error) {
@@ -51,7 +51,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchIds = async () => {
     try {
-      const response = await axios.get<string[]>('http://localhost:8081/api/v1/reports/batchIds');
+      const response = await axios.get<string[]>('http://localhost:8085/api/v1/reports/batchIds');
       setBatchIds(response.data);
     } catch (error) {
       console.error('Error fetching batch IDs:', error);
@@ -84,7 +84,7 @@ const TransactionEnquiry = () => {
     <div className="container mx-auto p-4 bg-white">
       <h1 className="text-2xl font-bold">Transaction Enquiry</h1>
       <div className="bg-white shadow-md rounded-md p-4">
-        <h2 className="bg-gray-100 text-lg font-semibold">ACH Transaction Enquiry</h2>
+        <h2 className="bg-gray-100 text-lg font-semibold">APBS Transaction Enquiry</h2>
         <div className="flex flex-col items-center space-y-2">
           <div className="grid grid-cols-5 gap-10 my-1">
             <label className="block font-semibold">Inward Date<span className="text-red-500">*</span></label>

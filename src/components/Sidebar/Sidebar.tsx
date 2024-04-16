@@ -25,19 +25,19 @@ export default function Sidebar() {
       children: [
         { label: 'Batch Status', route: '/dashboard/ACHCredit/BatchStatus' },
         { label: 'Transaction Enquiry', route: '/dashboard/ACHCredit/TransactionEnquiry' },
-        { label: 'ACH Maker Modify', route: '/ach-credit/maker-modify' },
-        { label: 'ACH Checker Verify', route: '/ach-credit/checker-verify' },
-        { label: 'ACH Maker/Checker Cancel', route: '/ach-credit/maker-checker-cancel' },
+        { label: 'ACH Maker Modify', route: '/dashboard/ACHCredit/MakerModify' },
+        { label: 'ACH Checker Verify', route: '/dashboard/ACHCredit/CheckerVerify' },
+        { label: 'ACH Maker/Checker Cancel', route: '/dashboard/ACHCredit/MakerCheckerCancel' },
       ],
     },
     {
       label: 'ACH Debit',
       children: [
-        { label: 'Batch Status', route: '/ach-debit/batch-status' },
-        { label: 'Transaction Enquiry', route: '/ach-debit/transaction-enquiry' },
-        { label: 'ACH Maker Modify', route: '/ach-debit/maker-modify' },
-        { label: 'ACH Checker Verify', route: '/ach-debit/checker-verify' },
-        { label: 'ACH Maker/Checker Cancel', route: '/ach-debit/maker-checker-cancel' },
+        { label: 'Batch Status', route: '/dashboard/ACHDebit/BatchStatus' },
+        { label: 'Transaction Enquiry', route: '/dashboard/ACHDebit/TransactionEnquiry' },
+        { label: 'ACH Maker Modify', route: '/dashboard/ACHDebit/MakerModify' },
+        { label: 'ACH Checker Verify', route: '/dashboard/ACHDebit/CheckerVerify' },
+        { label: 'ACH Maker/Checker Cancel', route: '/dashboard/ACHDebit/MakerCheckerCancel' },
       ],
     },
     {

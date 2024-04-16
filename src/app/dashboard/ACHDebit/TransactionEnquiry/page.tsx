@@ -41,7 +41,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchData = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8081/api/v1/reports/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`http://localhost:8085/api/v1/reports/batchs?inwardDate=${inwardDate}`);
       setBatchData(response.data);
       setShowTable(true);
     } catch (error) {
@@ -51,7 +51,7 @@ const TransactionEnquiry = () => {
 
   const fetchBatchIds = async () => {
     try {
-      const response = await axios.get<string[]>('http://localhost:8081/api/v1/reports/batchIds');
+      const response = await axios.get<string[]>('http://localhost:8085/api/v1/reports/batchIds');
       setBatchIds(response.data);
     } catch (error) {
       console.error('Error fetching batch IDs:', error);

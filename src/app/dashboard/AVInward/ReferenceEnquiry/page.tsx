@@ -207,7 +207,7 @@ const ReferenceEnquiry = () => {
     if (batchId) {
       try {
         const response = await axios.get<RecordData[]>(
-          `http://localhost:8085/api/v1/reports/records?batchId=${batchId}`
+          `http://localhost:8081/api/v1/reports/records?batchId=${batchId}`
         );
         setRecordData(response.data);
       } catch (error) {
@@ -230,7 +230,7 @@ const ReferenceEnquiry = () => {
     const fetchBatchData = async () => {
       try {
         const response = await axios.get<BatchData[]>(
-          `http://localhost:8085/api/v1/reports/batchs?inwardDate=${inwardDate}`
+          `http://localhost:8081/api/v1/reports/batchs?inwardDate=${inwardDate}`
         );
         setBatchData(response.data);
         setBatchIdOptions(response.data.map((batch) => batch.batchId));
