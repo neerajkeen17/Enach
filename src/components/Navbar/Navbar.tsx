@@ -37,7 +37,7 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between bg-[#dfd3e0] rounded-3xl w-screen h-[12svh]">
         <div className="logo m-[2svh]">
-          <Image src="/logo.png" className='h-[8svh] w-auto rounded' alt='logo' width={100} height={100} />
+          <Image src="/fino.jpg" className='h-[8svh] w-auto rounded' alt='logo' width={100} height={100} unoptimized/>
         </div>
 
         <div className="container-1 m-[3svh] text-sm">
@@ -45,7 +45,7 @@ export default function Navbar() {
         </div>
 
         <div className="container-1 m-[3svh] text-sm">
-          <p>User Name: ABC12345</p>
+          <p>User Name: USER1</p>
           <p>MER3</p>
         </div>
 
@@ -59,7 +59,7 @@ export default function Navbar() {
         </div>
 
         <div className='container-3 m-[3svh] '>
-          <button className='text-black bg-gray-400 border-0 py-1 px-4 focus:outline-none hover:bg-gray-500 rounded-2xl text-xl' type="submit" onClick={handleLogout}>Log Out</button>
+          <button className='text-black bg-gray-400 border-0 py-1 px-4 focus:outline-none hover:bg-gray-500 rounded-xl text-xl' type="submit" onClick={handleLogout}>Log Out</button>
         </div>
       </nav>
   )

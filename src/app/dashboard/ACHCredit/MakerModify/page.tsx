@@ -109,7 +109,7 @@ const MakerModify = () => {
             </div>
 
             <div className='grid grid-cols-2 gap-5 mt-1'>
-              <label htmlFor="batchstatus" className="block font-semibold">Batch Status:</label>
+              <label htmlFor="batchstatus" className="block font-semibold">Exception Reason:</label>
               <select
                 className="border border-gray-300 rounded-md py-1 px-3 mr-2"
                 name="batchstatus"
