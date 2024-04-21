@@ -33,7 +33,7 @@ export default function Home() {
     const validUser = data.find((user) => user["user-id"] === userId && user.password === password);
     if (validUser) {
       // Redirect to landing page
-      router.push("/login/OTP");
+      router.push("/OTP");
     } else {
       setShowInvalidMessage(true);
       // Display error messages
