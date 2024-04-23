@@ -17,7 +17,7 @@ export default function OTP() {
     const fetchOTP = async () => {
       try {
         const response = await axios.post('http://localhost:8080/http://10.15.15.247:81/esb/generate/otp',
-
+        
         {
           MethodId: '1',
           TellerID: '155',
@@ -52,18 +52,7 @@ export default function OTP() {
           headers: {
             'Content-Type': 'application/json',
           },
-          // data: JSON.stringify({
-          //   MethodId: '2',
-          //   TellerID: '155',
-          //   CustomerMobileNo: mobileNumber,
-          //   EventId: '',
-          //   VerifyParam: {
-          //     RequestId: requestId,
-          //     OtpPin: otpValue,
-          //   },
-          //   NotifyParam: {},
-          // }),
-          {
+          data: JSON.stringify({
             MethodId: '2',
             TellerID: '155',
             CustomerMobileNo: mobileNumber,
@@ -73,7 +62,7 @@ export default function OTP() {
               OtpPin: otpValue,
             },
             NotifyParam: {},
-          },
+          }),
         });
 
         const data = response.data;
