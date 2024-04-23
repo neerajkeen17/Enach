@@ -2,12 +2,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-// import axios from "axios";
+import axios from "axios";
 import { useSelector } from 'react-redux';
-import { RootState } from '@/app/store';
+import { RootState } from '@/store/store';
 
 export default function OTP() {
-  const { mobileNumber, requestId } = useSelector((state: RootState) => state.login);
+  const { mobileNumber } = useSelector((state: RootState) => state.login);
+  console.log("rudex se mobile number laya hu mai ",mobileNumber)
 
   const router = useRouter();
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -17,8 +18,8 @@ export default function OTP() {
     const otpValue = otp.join('');
     if (otpValue.length === 4 && /^[0-9]+$/.test(otpValue)) {
       try {
-        const response = await fetch('http://localhost:8080/http://10.15.15.247:81/esb/smsservice', {
-          method: 'POST',
+        const response = await axios.post('http://localhost:8080/http://10.15.15.247:81/esb/smsservice', {
+          
           headers: {
             'Content-Type': 'application/json',
           },
@@ -55,7 +56,7 @@ export default function OTP() {
     //   const otpResponse = await axios.post(
     //     "http://localhost:8080/http://10.15.15.247:81/esb/generate/otp",
     //     {
-    //       // ... (request body)
+        
     //       MethodId: "1",
     //       TellerID: "155",
     //       CustomerMobileNo: mobileNumber,
