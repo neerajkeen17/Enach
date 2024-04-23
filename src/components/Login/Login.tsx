@@ -27,7 +27,7 @@ export default function Home() {
     setShowInvalidMessage(false);
 
     try {
-      const response = await axios.post("http://10.15.15.205:9718/esb/NACH/usersec/authenticate", {
+      const response = await axios.post("http://localhost:8080/http://10.15.15.205:9718/esb/NACH/usersec/authenticate", {
         UserName: userId,
         Password: password,
       });

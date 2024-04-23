@@ -1,10 +1,19 @@
+"use client";
+
 import OTP from '@/components/OTP/Otp'
 import React from 'react'
 
+import { Provider } from 'react-redux';
+import store from '@/store/store';
+import type { AppProps } from 'next/app';
 
-function page() {
+
+function page({ Component, pageProps }: AppProps) {
   return (
-    <OTP/>
+    // <OTP/>
+    <Provider store={store}>
+    <OTP {...pageProps} />
+    </Provider>
   )
 }
 
