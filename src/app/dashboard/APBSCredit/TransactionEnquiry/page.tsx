@@ -3,6 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const txnStatusDropdownOptions = [
+  "1- Success",
+  "2- Failure",
+  "3- Pending Approval",
+  "4- Exception Posted",
+  "5- Exception Rejection",
+  "6- Exception Maker Approved",
+  "7- Exception Maker Rejected"
+];
+
 interface BatchData {
   batchId: string;
   time: string;
@@ -13,72 +23,83 @@ interface BatchData {
   batchStatus: number;
   rejectionReason: string;
   responseFileGenerate: number;
+  originalFileName: string;
+}
+
+interface RecordData {
+  apbItemSeqNo: string;
+  accountNo: string;
+  beneficiaryName: string;
+  accountHolderName: string;
+  amount: string;
+  txnStatus: string;
+  reasonCode: string;
+  reasonDesc: string;
+  exceptionReason: string;
+  userName: string;
 }
 
 const TransactionEnquiry = () => {
   const [inwardDate, setInwardDate] = useState('');
-  const [batchData, setBatchData] = useState<BatchData[]>([]);
-  const [batchIds, setBatchIds] = useState<string[]>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [showTable, setShowTable] = useState(false);
-  const [filterRejected, setFilterRejected] = useState(false);
+  const [batchData, setBatchData] = useState<BatchData[]>([]);
+  const [recordData, setRecordData] = useState<RecordData[]>([]);
+  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [selectedTxnStatus, setSelectedTxnStatus] = useState('');
 
-  useEffect(() => {
-    if (inwardDate) {
-      fetchBatchData();
-      fetchBatchIds();
-    }
-  }, [inwardDate]);
-
-  const batchstatusdrop = [
-    "1- Batch Under Process",
-    "2- Batch Rejected",
-    "3- Batch Updated",
-    "4- Response file Under Process",
-    "5- Response file Generated",
-    "6- Response file Sent , ACK Received",
-    "7- Batch Closed"
-  ];
-
-  const fetchBatchData = async () => {
+  const handleRetrieve = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8085/api/v1/reports/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`http://localhost:8080/http://localhost:8083/api/v1/reports/apb/batchs?inwardDate=${inwardDate}`);
       setBatchData(response.data);
-      setShowTable(true);
+      const distinctFileNames = response.data.map(batch => batch.originalFileName);
+      setFileNames(Array.from(new Set(distinctFileNames)));
     } catch (error) {
       console.error('Error fetching batch data:', error);
     }
   };
 
-  const fetchBatchIds = async () => {
-    try {
-      const response = await axios.get<string[]>('http://localhost:8085/api/v1/reports/batchIds');
-      setBatchIds(response.data);
-    } catch (error) {
-      console.error('Error fetching batch IDs:', error);
-    }
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setShowTable(true);
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInwardDate(e.target.value);
+    if (selectedFileName) {
+      try {
+        const batchId = batchData.find(batch => batch.originalFileName === selectedFileName)?.batchId;
+        if (batchId) {
+          const response = await axios.get<RecordData[]>(
+            `http://localhost:8080/http://localhost:8083/api/v1/reports/apb/records?batchId=${batchId}`
+          );
+          let filteredRecordData = response.data;
+
+          if (selectedTxnStatus) {
+            const txnStatus = selectedTxnStatus.split('-')[1].trim();
+            filteredRecordData = response.data.filter(record => record.txnStatus === txnStatus);
+          }
+
+          setRecordData(filteredRecordData);
+        } else {
+          console.error('Batch ID not found for the selected file name.');
+        }
+      } catch (error) {
+        console.error('Error fetching record data:', error);
+      }
+    }
   };
 
   const handleReset = () => {
     setInwardDate('');
-    setBatchData([]);
+    setSelectedFileName('');
+    setSelectedTxnStatus('');
     setShowTable(false);
-    setFilterRejected(false);
+    setBatchData([]);
+    setRecordData([]);
+    setFileNames([]);
   };
 
-  const handleBatchStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedStatus = e.target.value;
-    setFilterRejected(selectedStatus === "2- Batch Rejected");
+  const handleTxnStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTxnStatus(e.target.value);
   };
-
-  const filteredData = filterRejected
-    ? batchData.filter((batch) => batch.batchStatus === 2)
-    : batchData;
-
-    
 
   return (
     <div className="container mx-auto p-4 bg-white">
@@ -86,10 +107,17 @@ const TransactionEnquiry = () => {
       <div className="bg-white shadow-md rounded-md p-4">
         <h2 className="bg-gray-100 text-lg font-semibold">APBS Transaction Enquiry</h2>
         <div className="flex flex-col items-center space-y-2">
-          <div className="grid grid-cols-5 gap-10 my-1">
-            <label className="block font-semibold">Inward Date<span className="text-red-500">*</span></label>
-            <input type="date" className="border border-gray-300 rounded-md py-1 px-2 mr-2" value={inwardDate} onChange={handleDateChange} />
-            <button className="bg-blue-500 text-white rounded-md" onClick={fetchBatchData}>Retrieve</button>
+          <div className='grid grid-cols-5 gap-10 my-1'>
+            <label className="block font-semibold">Inward Date<span className='text-red-500'>*</span></label>
+            <input
+              type='date'
+              className='border border-gray-300 rounded-md py-1 px-2 mr-2'
+              value={inwardDate}
+              onChange={(e) => setInwardDate(e.target.value)}
+            />
+            <button className="bg-blue-500 text-white rounded-md" onClick={handleRetrieve}>
+              Retrieve
+            </button>
           </div>
           <div>
             <div className='grid grid-cols-2 gap-5'>
@@ -98,72 +126,76 @@ const TransactionEnquiry = () => {
                 className="border border-gray-300 rounded-md py-1 px-3 mr-2"
                 name="batchid"
                 id="batchid"
+                value={selectedFileName}
+                onChange={(e) => setSelectedFileName(e.target.value)}
               >
                 <option value="">Select Batch ID</option>
-                {batchIds.map((batchId, index) => (
-                  <option key={index} value={batchId}>
-                    {batchId}
+                {fileNames.map((fileName, index) => (
+                  <option key={index} value={fileName}>
+                    {fileName}
                   </option>
                 ))}
               </select>
             </div>
-
             <div className='grid grid-cols-2 gap-5 mt-1'>
-              <label htmlFor="batchstatus" className="block font-semibold">Batch Status:</label>
-              <select
+               <label htmlFor="batchstatus" className="block font-semibold">Transaction Status :</label>
+               <select
                 className="border border-gray-300 rounded-md py-1 px-3 mr-2"
                 name="batchstatus"
                 id="batchstatus"
-                onChange={handleBatchStatusChange}
+                onChange={handleTxnStatusChange}
+                value={selectedTxnStatus}
               >
-                <option value="">Select Batch Status</option>
-                {batchstatusdrop.map((status, index) => (
+                <option value="">Select Transaction Status</option>
+                {txnStatusDropdownOptions.map((status, index) => (
                   <option key={index} value={status}>
                     {status}
                   </option>
                 ))}
               </select>
             </div>
-
-            <div className='grid grid-cols-2 gap-5 mt-1'>
-                <label className='block font-semibold'>Exception Reason:</label>
-                <input className='border border-gray-300 rounded-md py-1 px-3 mr-2' type='text'/>
-            </div>
+             <div className='grid grid-cols-2 gap-5 mt-1'>
+                 <label className='block font-semibold'>Exception Reason:</label>
+                 <input className='border border-gray-300 rounded-md py-1 px-3 mr-2' type='text'/>
+             </div>
           </div>
-          <div className="h-1 w-4/5 bg-black"></div>
-          <div className="grid grid-cols-2 gap-10">
-            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={fetchBatchData}>Submit</button>
+
+          <div className='h-1 w-4/5 bg-black'></div>
+          <div className='grid grid-cols-2 gap-10'>
+            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={handleSubmit}>Submit</button>
             <button className="bg-red-500 text-white px-4 py-1 rounded-md" onClick={handleReset}>Reset</button>
           </div>
         </div>
         {showTable && (
-          <div className="overflow-x-auto mt-2">
+          <div className="overflow-y-auto max-h-[14rem] overflow-x-auto max-w-[65rem] mt-2">
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="px-2 py-1 text-sm">Batch Id</th>
-                  <th className="px-2 py-1 text-sm">Time</th>
-                  <th className="px-2 py-1 text-sm">Validation Date</th>
-                  <th className="px-2 py-1 text-sm">Total Records</th>
-                  <th className="px-2 py-1 text-sm">Successful Records</th>
-                  <th className="px-2 py-1 text-sm">Failure Records</th>
-                  <th className="px-2 py-1 text-sm">Batch Status</th>
-                  <th className="px-2 py-1 text-sm">Rejection Reason</th>
-                  <th className="px-2 py-1 text-sm">Return File Generate</th>
+                  <th className="px-2 py-1">APB Item Seq No.</th>
+                  <th className="px-2 py-1">Account Number</th>
+                  <th className="px-2 py-1">Beneficiary Name</th>
+                  <th className="px-2 py-1">Account Holder Name</th>
+                  <th className="px-2 py-1">Amount</th>
+                  <th className="px-2 py-1">Txn Status</th>
+                  <th className="px-2 py-1">Reason Code</th>
+                  <th className="px-2 py-1">Reason Description</th>
+                  <th className="px-2 py-1">Exception Reason</th>
+                  <th className="px-2 py-1">User Name</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((batch) => (
-                  <tr key={batch.batchId}>
-                    <td className="border px-2 text-sm">{batch.batchId}</td>
-                    <td className="border px-2 text-sm">{batch.time}</td>
-                    <td className="border px-2 text-sm">{batch.validationDate}</td>
-                    <td className="border px-2 text-sm">{batch.totalRecord}</td>
-                    <td className="border px-2 text-sm">{batch.successFullRecord}</td>
-                    <td className="border px-2 text-sm">{batch.failedRecords}</td>
-                    <td className="border px-2 text-sm">{batch.batchStatus}</td>
-                    <td className="border px-2 text-sm">{batch.rejectionReason}</td>
-                    <td className="border px-2 text-sm">{batch.responseFileGenerate}</td>
+                {recordData.map((record, index) => (
+                  <tr key={index}>
+                    <td className="border px-2 py-1">{record.apbItemSeqNo}</td>
+                    <td className="border px-2 py-1">{record.accountNo}</td>
+                    <td className="border px-2 py-1">{record.beneficiaryName}</td>
+                    <td className="border px-2 py-1">{record.accountHolderName}</td>
+                    <td className="border px-2 py-1">{record.amount}</td>
+                    <td className="border px-2 py-1">{record.txnStatus}</td>
+                    <td className="border px-2 py-1">{record.reasonCode}</td>
+                    <td className="border px-2 py-1">{record.reasonDesc}</td>
+                    <td className="border px-2 py-1">{record.exceptionReason}</td>
+                    <td className="border px-2 py-1">{record.userName}</td>
                   </tr>
                 ))}
               </tbody>
