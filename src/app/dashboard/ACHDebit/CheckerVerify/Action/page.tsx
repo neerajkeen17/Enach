@@ -26,11 +26,11 @@ const reasonCodeDropdownOptions = [
 const Action = () => {
   return (
     <div className='p-2 bg-white'>
-      <h1 className='text-xl font-semibold'>APBS Individual Transaction Status</h1>
+      <h1 className='text-xl font-semibold'>ACH Individual Transaction Status</h1>
       <div className='shadow-md p-2 rounded-md'>
 
       <div>
-        <h2 className='border border-gray-300 bg-stone-400 font-bold'>APBS Beneficiary Details</h2>
+        <h2 className='border border-gray-300 bg-stone-400 font-bold'>ACH Beneficiary Details</h2>
 
         <div className='grid grid-cols-2 gap-16'>
           <div>
@@ -67,7 +67,7 @@ const Action = () => {
 
 
       <div>
-        <h2 className='border border-gray-300 bg-stone-400 font-bold'>APBS Transaction Details</h2>
+        <h2 className='border border-gray-300 bg-stone-400 font-bold'>ACH Transaction Details</h2>
         <div className='grid grid-cols-2 gap-16'>
           <div>
             <div className='grid grid-cols-2 gap-4'>

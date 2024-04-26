@@ -19,7 +19,9 @@ export default function Dashboard() {
  useEffect(() => {
    const sendDateTimeToAPI = async () => {
      try {
-       const response = await axios.post('http://10.15.15.205:9718/esb/NACH/usersec/update', {
+      //  const response = await axios.post('http://10.15.15.205:9718/esb/NACH/usersec/update', {
+        const response = await axios.post(process.env.URL_DATE_TIME_UPDATE, {
+
          UserName: "Vaibhav",
          LoginDate: dateandTime
        });

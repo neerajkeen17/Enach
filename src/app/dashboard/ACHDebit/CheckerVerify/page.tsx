@@ -109,7 +109,7 @@ const CheckerVerify = () => {
     <div className="container mx-auto p-4 bg-white">
       <h1 className="text-2xl font-bold">Checker Verify</h1>
       <div className="bg-white shadow-md rounded-md p-4">
-        <h2 className="bg-gray-100 text-lg font-semibold">APBS Checker Verify</h2>
+        <h2 className="bg-gray-100 text-lg font-semibold">ACH Checker Verify</h2>
         <div className="flex flex-col items-center space-y-2">
           <div className='grid grid-cols-5 gap-10 my-1'>
             <label className="block font-semibold">Inward Date<span className='text-red-500'>*</span></label>

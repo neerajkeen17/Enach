@@ -20,19 +20,21 @@ export default function Home() {
   const dispatch: AppDispatch = useDispatch();
 
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setUserIdError("");
     setPasswordError("");
     setShowInvalidMessage(false);
 
     try {
-      const response = await axios.post("http://localhost:8080/http://10.15.15.205:9718/esb/NACH/usersec/authenticate",
-      // const response = await axios.post(process.env.NEXT_PUBLIC_URL_LOGIN,
+      // const response = await axios.post("http://localhost:8080/http://10.15.15.205:9718/esb/NACH/usersec/authenticate",
+      const response = await axios.post(process.env.NEXT_PUBLIC_URL_LOGIN,
       {
         UserName: userId,
         Password: password,
       });
+
+      console.log('API Response:', response.data);
 
       if (response.data.returnCode === "0") {
         const mobileNumber = response.data.MobileNumber;
