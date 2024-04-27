@@ -4,15 +4,38 @@ declare global {
     namespace NodeJS {
       interface ProcessEnv {
         NEXT_PUBLIC_URL_LOGIN: string;
-        URL_OTP_GENERATE: string;
-        URL_OTP_VERIFY: string;
-        URL_DATE_TIME_UPDATE: string;
+        NEXT_PUBLIC_URL_OTP_GENERATE: string
+        NEXT_PUBLIC_URL_OTP_VERIFY: string
+        NEXT_PUBLIC_URL_DATE_TIME_UPDATE: string
 
-        URL_AV_REPORTS: string;
-        URL_AV_RECORDS: string;
+        NEXT_PUBLIC_URL_AV_REPORTS: string
+        NEXT_PUBLIC_URL_AV_RECORDS: string
 
-        URL_APBS_CREDIT_REPORTS: string;
-        SECRET_API_KEY: string;  // Note this won't be accessible on the client-side
+        NEXT_PUBLIC_URL_APBS_CREDIT_REPORTS: string
+        NEXT_PUBLIC_URL_APBS_CREDIT_RECORDS: string
+        NEXT_PUBLIC_URL_APBS_MAKER_RECORDS: string
+        NEXT_PUBLIC_URL_ABPS_MAKER_UPDATE: string
+        NEXT_PUBLIC_URL_ABPS_CHECKER_CANCEL_RECORDS: string
+        NEXT_PUBLIC_URL_ABPS_CHECKER_UPDATE: string
+        NEXT_PUBLIC_URL_ABPS_CANCEL_UPDATE: string
+
+
+        NEXT_PUBLIC_URL_ACH_CREDIT_REPORTS: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_MAKER_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_MAKER_UPDATE: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_CHECKER_CANCEL_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_CHECKER_UPDATE: string
+        NEXT_PUBLIC_URL_ACH_CREDIT_CANCEL_UPDATE: string
+
+
+        NEXT_PUBLIC_URL_ACH_DEBIT_REPORTS: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_MAKER_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_MAKER_UPDATE: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_CHECKER_CANCEL_RECORDS: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_CHECKER_UPDATE: string
+        NEXT_PUBLIC_URL_ACH_DEBIT_CANCEL_UPDATE: string
       }
     }
   }

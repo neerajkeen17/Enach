@@ -171,6 +171,7 @@ const MakerCheckerCancel = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-200">
+                  <th className='px-2 py-1'>Select</th>
                   <th className='px-2 py-1 text-sm'>APBS Item Seq No.</th>
                   <th className="px-2 py-1 text-sm">Account Number</th>
                   <th className="px-2 py-1 text-sm">Beneficiary Name</th>
@@ -184,7 +185,8 @@ const MakerCheckerCancel = () => {
               <tbody>
                 {recordData.map((record, index) => (
                   <tr key={index}>
-                    <td className="border px-2 text-sm text-blue-800 underline" onClick={handleNavigate}>{record.apbItemSeqNo}</td>
+                    <td className='border px-2'><input type='radio'/></td>
+                    <td className="border px-2 text-sm text-blue-800 underline" onClick={handleNavigate}><input type='radio'/>{record.apbItemSeqNo}</td>
                     <td className="border px-2 text-sm">{record.accountNo}</td>
                     <td className="border px-2 text-sm">{record.beneficiaryName}</td>
                     <td className="border px-2 text-sm">{record.accountHolderName}</td>

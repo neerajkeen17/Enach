@@ -27,9 +27,9 @@ const Action = () => {
   return (
     <div className='p-2 bg-white'>
       <h1 className='text-xl font-semibold'>APBS Individual Transaction Status</h1>
-      <div className='shadow-md p-2 rounded-md'>
+      <div className='shadow-md p-2 rounded-md space-y-5'>
 
-      <div>
+      <div className='space-y-4'>
         <h2 className='border border-gray-300 bg-stone-400 font-bold'>APBS Beneficiary Details</h2>
 
         <div className='grid grid-cols-2 gap-16'>
@@ -66,7 +66,7 @@ const Action = () => {
       </div>
 
 
-      <div>
+      <div className='space-y-4'>
         <h2 className='border border-gray-300 bg-stone-400 font-bold'>APBS Transaction Details</h2>
         <div className='grid grid-cols-2 gap-16'>
           <div>
@@ -109,37 +109,35 @@ const Action = () => {
         </div>
       </div>
 
-      <div className=''>
-        <div>
-          <label htmlFor="status">Approved:</label>
-          <input type="checkbox" id="status" name="status" value="status"/>
-        </div>
-        
-        <div className='grid grid-cols-2'>
-          <label htmlFor="batchstatus" className="f">Reason Code :</label>
+      <div className='flex flex-col items-center space-y-4'>
+        <div className='flex items-center mb-4 space-x-8'>
+          <div>
+          <label htmlFor="status" className='mr-2'>Approved:</label>
+          <input type="checkbox" id="status" name="status" value="status" className='mr-4' />
+          </div>
+          <div>
+          <label htmlFor="reasoncode" className="mr-2">Reason Code :</label>
           <select
-              className="border border-gray-300 rounded-md py-1 px-3 mr-2"
-              name="batchstatus"
-              id="batchstatus"
-                // onChange={handleTxnStatusChange}
-                // value={selectedTxnStatus}
-              >
-                <option value="">Select Reason Code</option>
-                  {reasonCodeDropdownOptions.map((status, index) => (
-                    <option key={index} value={status}>
-                      {status}
-                </option>
-                ))}
+            className="border border-gray-300 rounded-md py-1 px-3 mr-2"
+            name="reasoncode"
+            id="reasoncode"
+            // onChange={handleTxnStatusChange}
+            // value={selectedTxnStatus}
+          >
+            <option value="">Select Reason Code</option>
+            {reasonCodeDropdownOptions.map((code, index) => (
+              <option key={index} value={code}>
+                {code}
+              </option>
+            ))}
           </select>
+          </div>
+        </div>
+        <div className='flex justify-center space-x-10'>
+          <button className='p-1 px-4 bg-slate-300 rounded-xl mr-2'>Submit</button>
+          <button className='p-1 px-4 bg-slate-300 rounded-xl'>Cancel</button>
         </div>
       </div>
-
-      <div className='space-y-10 space-x-20'>
-        <button className='p-1 px-4 bg-slate-300 rounded-xl'>Submit</button>
-        <button className='p-1 px-4 bg-slate-300 rounded-xl'>Cancel</button>
-      </div>
-
-      <div></div>
       </div>
     </div>
   )
