@@ -1,29 +1,7 @@
+// makerSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface MakerModifyState {
-  inwardDate: string;
-  selectedFileName: string;
-  showTable: boolean;
-  batchData: BatchData[];
-  recordData: RecordData[];
-  fileNames: string[];
-  selectedTxnStatus: string;
-}
-
-export interface BatchData {
-  batchId: string;
-  time: string;
-  validationDate: string;
-  totalRecord: number;
-  successFullRecord: number;
-  failedRecords: number;
-  batchStatus: number;
-  rejectionReason: string;
-  responseFileGenerate: number;
-  originalFileName: string;
-}
-
-export interface RecordData {
+interface RecordData {
   apbItemSeqNo: string;
   accountNo: string;
   beneficiaryName: string;
@@ -32,32 +10,36 @@ export interface RecordData {
   txnStatus: string;
   exceptionReason: string;
   userName: string;
+  productType: string
 }
 
-export interface MakerModifyAction {
-  type: string;
-  payload: Partial<MakerModifyState>;
+interface ApbsState {
+  apbsData: RecordData | null;
+  inwardDate: string;
+  selectedFileName: string;
 }
 
-const initialState: MakerModifyState = {
+const initialState: ApbsState = {
+  apbsData: null,
   inwardDate: '',
   selectedFileName: '',
-  showTable: false,
-  batchData: [],
-  recordData: [],
-  fileNames: [],
-  selectedTxnStatus: '',
 };
 
 const makerModifySlice = createSlice({
   name: 'makerModify',
   initialState,
   reducers: {
-    setMakerModifyData(state, action: PayloadAction<Partial<MakerModifyState>>) {
-      return { ...state, ...action.payload };
+    setApbsData: (state, action: PayloadAction<RecordData>) => {
+      state.apbsData = action.payload;
+    },
+    setInwardDate: (state, action: PayloadAction<string>) => {
+      state.inwardDate = action.payload;
+    },
+    setSelectedFileName: (state, action: PayloadAction<string>) => {
+      state.selectedFileName = action.payload;
     },
   },
 });
 
-export const { setMakerModifyData } = makerModifySlice.actions;
+export const { setApbsData, setInwardDate, setSelectedFileName } = makerModifySlice.actions;
 export default makerModifySlice.reducer;

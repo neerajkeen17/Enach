@@ -211,23 +211,50 @@
 
 
 
-"use client"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// MakerModify.tsx
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useDispatch } from 'react-redux';
-import { setMakerModifyData } from '@/store/resources/makerSlice';
+import { setApbsData, setInwardDate, setSelectedFileName } from '@/store/resources/makerSlice';
 
-  const exceptionReasonDropdownOptions = [
-    "52-  Account has Restriction",
-    "56-  Misc-First Transaction to be Base Branch",
-    "57-  Misc-First Transaction to be Base Branch",
-    "01-  Sub Member",
-    "02-  Name Mismatch",
-    "03-  Restricted Product Type",
-    "04-  Transaction Limit Exceeded"
-  ];
+const exceptionReasonDropdownOptions = [
+  "52-  Account has Restriction",
+  "56-  Misc-First Transaction to be Base Branch",
+  "57-  Misc-First Transaction to be Base Branch",
+  "01-  Sub Member",
+  "02-  Name Mismatch",
+  "03-  Restricted Product Type",
+  "04-  Transaction Limit Exceeded"
+];
 
 interface BatchData {
   batchId: string;
@@ -251,10 +278,12 @@ interface RecordData {
   txnStatus: string;
   exceptionReason: string;
   userName: string;
+  productType: string
 }
 
-const MakerModify = () => {
+const MakerModify: React.FC = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [inwardDate, setInwardDate] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [showTable, setShowTable] = useState(false);
@@ -262,8 +291,6 @@ const MakerModify = () => {
   const [recordData, setRecordData] = useState<RecordData[]>([]);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [selectedTxnStatus, setSelectedTxnStatus] = useState('');
-
-  const dispatch = useDispatch();
 
   const handleRetrieve = async () => {
     try {
@@ -315,8 +342,14 @@ const MakerModify = () => {
   };
 
   const handleNavigate = (record: RecordData) => {
-    dispatch(setMakerModifyData({ recordData: [record], showTable: true }));
-    router.push("/dashboard/APBSCredit/MakerModify/Action");
+    if (record && inwardDate && selectedFileName) {
+      dispatch(setApbsData(record));
+      dispatch(setInwardDate(inwardDate));
+      dispatch(setSelectedFileName(selectedFileName));
+      router.push("/dashboard/APBSCredit/MakerModify/Action");
+    } else {
+      console.error("Missing required data for navigation.");
+    }
   }
 
   const handleTxnStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -402,7 +435,7 @@ const MakerModify = () => {
               <tbody>
                 {recordData.map((record, index) => (
                   <tr key={index}>
-                    <td className="border px-2 text-sm text-blue-800 underline" onClick={handleNavigate}>{record.apbItemSeqNo}</td>
+                    <td className="border px-2 text-sm text-blue-800 underline" onClick={() => handleNavigate(record)}>{record.apbItemSeqNo}</td>
                     <td className="border px-2 text-sm">{record.accountNo}</td>
                     <td className="border px-2 text-sm">{record.beneficiaryName}</td>
                     <td className="border px-2 text-sm">{record.accountHolderName}</td>
