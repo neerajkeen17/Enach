@@ -188,7 +188,7 @@ const reasonCodeDropdownOptions = [
 
 const Action: React.FC = () => {
   const apbsData = useSelector((state: RootState) => state.makerModify.apbsData);
-  const inwardDate = useSelector((state: RootState) => state.makerModify.inwardDate);
+  const inwardDate = useSelector((state: RootState) => state.makerModify.inwarddate);
   const selectedFileName = useSelector((state: RootState) => state.makerModify.selectedFileName);
 
   return (

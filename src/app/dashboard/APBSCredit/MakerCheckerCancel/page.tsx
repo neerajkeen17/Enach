@@ -59,7 +59,7 @@ const MakerCheckerCancel = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setShowTable(true);
 
@@ -162,7 +162,7 @@ const MakerCheckerCancel = () => {
 
           <div className='h-1 w-4/5 bg-black'></div>
           <div className='grid grid-cols-2 gap-10'>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={handleSubmit}>Submit</button>
+            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={()=>{handleSubmit}}>Submit</button>
             <button className="bg-red-500 text-white px-4 py-1 rounded-md" onClick={handleReset}>Reset</button>
           </div>
         </div>

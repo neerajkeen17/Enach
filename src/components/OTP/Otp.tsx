@@ -12,7 +12,8 @@ export default function OTP() {
   const { mobileNumber } = useSelector((state: RootState) => state.login);
   const router = useRouter();
   const [otp, setOtp] = useState(['', '', '', '']);
-  const inputRefs = useRef([]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
   const [requestId, setRequestId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -21,14 +22,14 @@ export default function OTP() {
       try {
         const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_GENERATE,
 
-        {
-          MethodId: '1',
-          TellerID: '155',
-          CustomerMobileNo: mobileNumber,
-          EventId: '',
-          VerifyParam: {},
-          NotifyParam: {},
-        });
+          {
+            MethodId: '1',
+            TellerID: '155',
+            CustomerMobileNo: mobileNumber,
+            EventId: '',
+            VerifyParam: {},
+            NotifyParam: {},
+          });
 
         const data = response.data;
 
@@ -45,63 +46,63 @@ export default function OTP() {
     fetchOTP();
   }, [mobileNumber]);
 
-  console.log(" RequestID which comes from OTP generate API ",requestId);
+  console.log(" RequestID which comes from OTP generate API ", requestId);
 
   const handleSubmit = async () => {
-      const otpValue = otp.join('');
-      if (otpValue.length === 4 && /^[0-9]+$/.test(otpValue)) {
-        console.log("OTP value", otpValue);
-        try {
+    const otpValue = otp.join('');
+    if (otpValue.length === 4 && /^[0-9]+$/.test(otpValue)) {
+      console.log("OTP value", otpValue);
+      try {
 
-          const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_VERIFY,
+        const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_VERIFY,
 
-            {
-              MethodId: '2',
-              TellerID: '155',
-              CustomerMobileNo: mobileNumber,
-              EventId: '',
-              VerifyParam: {
-                RequestId: requestId,
-                OtpPin: otpValue,
-              },
-              NotifyParam: {},
+          {
+            MethodId: '2',
+            TellerID: '155',
+            CustomerMobileNo: mobileNumber,
+            EventId: '',
+            VerifyParam: {
+              RequestId: requestId,
+              OtpPin: otpValue,
             },
-            {
-              headers: {
-                'X-Correlation-Id': '123456789_01012024120102020',
-              },
-            }
-          );
-    
-          const data = response.data;
-          console.log("gydefyiyie", response.data.ResponseCode);
-    
-          if (data.ResponseCode === '000') {
-            router.push('/dashboard');
-          } else {
-            setErrorMessage(data.DisplayMessage);
+            NotifyParam: {},
+          },
+          {
+            headers: {
+              'X-Correlation-Id': '123456789_01012024120102020',
+            },
           }
-        } catch (error) {
-          console.error('Error verifying OTP:', error);
+        );
+
+        const data = response.data;
+        console.log("gydefyiyie", response.data.ResponseCode);
+
+        if (data.ResponseCode === '000') {
+          router.push('/dashboard');
+        } else {
+          setErrorMessage(data.DisplayMessage);
         }
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
       }
+    }
   };
 
   const handleResend = async () => {
     setOtp(['', '', '', '']);
     setErrorMessage('');
     try {
-      
-      const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_GENERATE, 
 
-      {
-        MethodId: '1',
-        TellerID: '155',
-        CustomerMobileNo: mobileNumber,
-        EventId: '',
-        VerifyParam: {},
-        NotifyParam: {},
-      });
+      const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_GENERATE,
+
+        {
+          MethodId: '1',
+          TellerID: '155',
+          CustomerMobileNo: mobileNumber,
+          EventId: '',
+          VerifyParam: {},
+          NotifyParam: {},
+        });
 
       const data = response.data;
 
@@ -115,7 +116,12 @@ export default function OTP() {
     }
   };
 
-  const handleChange = (e, idx) => {
+
+
+
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
     const value = e.target.value;
     if (/^[0-9]?$/.test(value) || value === '') {
       const newOtp = [...otp];
@@ -124,11 +130,11 @@ export default function OTP() {
       if (value === '') {
         // If the user deletes the input, move the focus to the previous input
         if (idx > 0) {
-          inputRefs.current[idx - 1].focus();
+          inputRefs.current[idx - 1]?.focus();
         }
       } else if (idx < 3) {
         // If the user enters a digit, move the focus to the next input
-        inputRefs.current[idx + 1].focus();
+        inputRefs.current[idx + 1]?.focus();
       }
     }
   };
@@ -162,10 +168,13 @@ export default function OTP() {
             <input
               key={idx}
               type="text"
-              maxLength="1"
+              maxLength={1}
               value={digit}
               onChange={(e) => handleChange(e, idx)}
-              ref={(el) => (inputRefs.current[idx] = el)}
+              ref={(el) => {
+                inputRefs.current[idx] = el;
+                return void 0; // or simply return;
+              }}
               className="bg-white h-14 w-14 m-4 p-4 text-2xl font-bold rounded-lg"
             />
           ))}

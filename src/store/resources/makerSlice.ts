@@ -15,13 +15,17 @@ interface RecordData {
 
 interface ApbsState {
   apbsData: RecordData | null;
-  inwardDate: string;
+  // test:string | undefined;
+  inwarddate:string | undefined;
+  // inwardDate: string | undefined;
   selectedFileName: string;
 }
 
 const initialState: ApbsState = {
   apbsData: null,
-  inwardDate: '',
+  // test:"",
+  inwarddate:"",
+  // inwardDate: "",
   selectedFileName: '',
 };
 
@@ -32,14 +36,21 @@ const makerModifySlice = createSlice({
     setApbsData: (state, action: PayloadAction<RecordData>) => {
       state.apbsData = action.payload;
     },
-    setInwardDate: (state, action: PayloadAction<string>) => {
-      state.inwardDate = action.payload;
+    // setTestdata:(state,action:PayloadAction<string>)=>{
+    //   state.test= action.payload
+    // },
+    setInwarDateData:(state,action:PayloadAction<string>)=>{
+      state.inwarddate = action.payload
     },
+    // setInwardDate: (state, action: PayloadAction<string>) => {
+    //   console.log("asdfgh")
+    //   state.inwardDate = action.payload;
+    // },
     setSelectedFileName: (state, action: PayloadAction<string>) => {
       state.selectedFileName = action.payload;
     },
   },
 });
 
-export const { setApbsData, setInwardDate, setSelectedFileName } = makerModifySlice.actions;
+export const { setApbsData, setInwarDateData, setSelectedFileName } = makerModifySlice.actions;
 export default makerModifySlice.reducer;

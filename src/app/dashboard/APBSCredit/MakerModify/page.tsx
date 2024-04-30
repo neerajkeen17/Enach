@@ -244,7 +244,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
 import { useDispatch } from 'react-redux';
-import { setApbsData, setInwardDate, setSelectedFileName } from '@/store/resources/makerSlice';
+import { setApbsData,setInwarDateData, setSelectedFileName } from '@/store/resources/makerSlice';
 
 const exceptionReasonDropdownOptions = [
   "52-  Account has Restriction",
@@ -284,6 +284,7 @@ interface RecordData {
 const MakerModify: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
   const [inwardDate, setInwardDate] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [showTable, setShowTable] = useState(false);
@@ -303,10 +304,9 @@ const MakerModify: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setShowTable(true);
-
     if (selectedFileName) {
       try {
         const batchId = batchData.find(batch => batch.originalFileName === selectedFileName)?.batchId;
@@ -340,10 +340,15 @@ const MakerModify: React.FC = () => {
   };
 
   const handleNavigate = (record: RecordData) => {
+
     if (record && inwardDate && selectedFileName) {
       dispatch(setApbsData(record));
-      dispatch(setInwardDate(inwardDate));
-      dispatch(setSelectedFileName(selectedFileName));
+      console.log("ggdfghj",typeof(inwardDate))
+      dispatch(setInwarDateData(inwardDate))
+      // dispatch(setInwardDate("dfdf"))
+      // dispatch(setInwardDate("avbdfef")) 
+           // dispatch(setInwardDate(inwardDate));
+      // dispatch(setSelectedFileName(selectedFileName));
       router.push("/dashboard/APBSCredit/MakerModify/Action");
     } else {
       console.error("Missing required data for navigation.");
@@ -411,7 +416,7 @@ const MakerModify: React.FC = () => {
 
           <div className='h-1 w-4/5 bg-black'></div>
           <div className='grid grid-cols-2 gap-10'>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={handleSubmit}>Submit</button>
+            <button className="bg-blue-500 text-white px-4 py-1 rounded-md" onClick={()=>{handleSubmit}}>Submit</button>
             <button className="bg-red-500 text-white px-4 py-1 rounded-md" onClick={handleReset}>Reset</button>
           </div>
         </div>

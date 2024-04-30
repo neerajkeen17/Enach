@@ -46,7 +46,7 @@ const ReferenceEnquiry = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setRecordData([]);
     e.preventDefault();
     setShowTable(true);
