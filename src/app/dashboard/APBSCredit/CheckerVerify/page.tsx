@@ -50,7 +50,7 @@ const CheckerVerify = () => {
 
   const handleRetrieve = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8080/http://localhost:8083/api/v1/reports/apb/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`${process.env.NEXT_PUBLIC_URL_APBS_CREDIT_REPORTS}${inwardDate}`);
       setBatchData(response.data);
       const distinctFileNames = response.data.map(batch => batch.originalFileName);
       setFileNames(Array.from(new Set(distinctFileNames)));
@@ -68,7 +68,7 @@ const CheckerVerify = () => {
         const batchId = batchData.find(batch => batch.originalFileName === selectedFileName)?.batchId;
         if (batchId) {
           const response = await axios.get<RecordData[]>(
-            `http://localhost:8080/http://localhost:8082/api/v1/apb/pending/records?batchId=${batchId}`
+            `${process.env.NEXT_PUBLIC_URL_ABPS_CHECKER_CANCEL_RECORDS}${batchId}`
           );
           let filteredRecordData = response.data;
 

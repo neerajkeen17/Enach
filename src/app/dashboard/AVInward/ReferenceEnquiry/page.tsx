@@ -55,9 +55,7 @@ const ReferenceEnquiry = () => {
       try {
         const batchId = batchData.find(batch => batch.originalFileName === selectedFileName)?.batchId;
         if (batchId) {
-          const response = await axios.get<RecordData[]>(
-            `${process.env.NEXT_PUBLIC_URL_AV_RECORDS}${batchId}`
-          );
+          const response = await axios.get<RecordData[]>(`${process.env.NEXT_PUBLIC_URL_AV_RECORDS}${batchId}`);
           let filteredRecordData = response.data;
 
           if (batchStatus === '1- Success') {

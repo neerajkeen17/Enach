@@ -19,10 +19,8 @@ export default function OTP() {
   useEffect(() => {
     const fetchOTP = async () => {
       try {
-        // const response = await axios.post('http://localhost:8080/http://10.15.15.247:81/esb/generate/otp',
         const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_GENERATE,
 
-        
         {
           MethodId: '1',
           TellerID: '155',
@@ -54,7 +52,7 @@ export default function OTP() {
       if (otpValue.length === 4 && /^[0-9]+$/.test(otpValue)) {
         console.log("OTP value", otpValue);
         try {
-          // const response = await axios.post('http://localhost:8080/http://10.15.15.247:81/esb/smsservice',
+
           const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_VERIFY,
 
             {
@@ -93,7 +91,7 @@ export default function OTP() {
     setOtp(['', '', '', '']);
     setErrorMessage('');
     try {
-      // const response = await axios.post('http://localhost:8080/http://10.15.15.247:81/esb/generate/otp',
+      
       const response = await axios.post(process.env.NEXT_PUBLIC_URL_OTP_GENERATE, 
 
       {

@@ -55,7 +55,7 @@ const BatchStatus = () => {
 
   const handleRetrive = async () => {
     try {
-      const response = await axios.get<BatchData[]>(`http://localhost:8080/http://localhost:8083/api/v1/reports/apb/batchs?inwardDate=${inwardDate}`);
+      const response = await axios.get<BatchData[]>(`${process.env.NEXT_PUBLIC_URL_APBS_CREDIT_REPORTS}${inwardDate}`);
       setBatchData(response.data);
       const distinctFileNames = Array.from(new Set(response.data.map(batch => batch.originalFileName)));
       setDistinctFileNames(distinctFileNames);
